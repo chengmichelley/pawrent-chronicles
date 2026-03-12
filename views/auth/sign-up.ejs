@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up</title>
+  </head>
+  <body>
+    <%- include('../partials/_navbar.ejs') %>
+    <h1>Create a Account</h1>
+    <% if(typeof(message) !== undefined) { %>
+      <p style="color:red;font-style:italic;"><%=  message %></p>
+    <% } %>
+    <form action="/auth/sign-up" method="POST">
+      <div>
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required placeholder="ken@streetfighter.com"/>
+      </div>
+      <div>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required placeholder="Enter a password"/>
+      </div>
+      <div>
+        <label for="confirmPassword">Confirm Password:</label>
+        <input type="password" id="confirmPassword" name="confirmPassword" required placeholder="Confirm your password"/>
+      </div>
+      <button type="submit">Sign up</button>
+    </form>
+  </body>
+</html>
