@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const blogSchema = new mongoose.Schema(
+const postSchema = new mongoose.Schema(
   {
     title: {
       type: String,
@@ -15,6 +15,10 @@ const blogSchema = new mongoose.Schema(
       username: { type: String, required: true },
       createdAt: { type: Date, default: Date.now }
     }],
+    deletedAt: {
+      type: Date,
+      default: null
+    },
   },
   {
     timestamps: true,
@@ -29,7 +33,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    blog: [blogSchema],
+    posts: [postSchema],
 }, {
     timestamps: true
  })
