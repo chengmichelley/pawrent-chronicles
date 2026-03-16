@@ -34,9 +34,7 @@ app.use(
 app.use(passDataToView);
 
 app.get("/", (req, res) => {
-  res.render("index", {
-    user: req.session.user,
-  });
+  res.render("index");
 });
 
 app.use("/auth", authController);

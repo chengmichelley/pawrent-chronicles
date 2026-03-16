@@ -9,16 +9,14 @@
     <%- include('partials/_navbar.ejs') %>
     <% if(user) { %>
         <h1>Welcome back <%= user.username %></h1>
-        <p>
-            <a href="/users/<%= user._id %>/posts">Go To My Blog</a>
-        </p>
-        <p>
-            <a href="/users/<%= user._id %>/posts/new">Share a New Experience!</a>
-        </p>
+        <p><a href="/users/<%= user._id %>/posts">Go To My Blog</a></p>
+        <p><a href="/users/<%= user._id %>/posts/new">Share a New Experience!</a></p>
+        <p><a href="/users">Check Out What Other Pawrents Are Up To!</a></p>
      <% } else { %>
         <h1>Pawrent Chronicles</h1>
         <h2>A Safe Space to Share Our Adventures with Our Beloved Fur Babies</h2>
-        <p>Please <a href="/auth/sign-up">Sign Up</a> or <a href="/auth/sign-in">Sign In</a> </p>
+        <p>Please <a href="/auth/sign-up">Sign Up</a> or <a href="/auth/sign-in">Sign In</a></p>
+        <p><a href="/users">Meet Our Pawrent Community!</a></p>
     <% } %>
     
 </body>

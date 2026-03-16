@@ -12,19 +12,21 @@
     <section class = 'Community Guidelines'>
     <h3>To keep our community a safe and supported space please make sure all members and comments comply with our</h3>
     <h3>Community Guidelines:</h3>
-    <h3><strong>Be Respectful:</strong> Treat others with kindness & empathy! No harassment or personal attacks!</h3>
-    <h3><strong>No hate speech:</strong> Any discrimination against race, religion, gender, orientation will not be tolerated!</h3>
-    <h3><strong>Stay Relevant:</strong> Keep comments relevant to food sharing and community building!</h3>
-    <h3><strong>Protect Privacy:</strong> Do not share any personal information about you or others!</h3>
-    <h3><strong>No Spam:</strong> Avoid promotional content, commercial advertisement or links!</h3>
-    <h4>We reserve the right to remove any members or content that violate these guidelines!</h4>
+    <ul>
+    <li><strong>Be Respectful:</strong> Treat others with kindness & empathy! No harassment or personal attacks!</li>
+    <li><strong>No hate speech:</strong> Any discrimination against race, religion, gender, orientation will not be tolerated!</li>
+    <li><strong>Stay Relevant:</strong> Keep comments relevant to food sharing and community building!</li>
+    <li><strong>Protect Privacy:</strong> Do not share any personal information about you or others!</li>
+    <li><strong>No Spam:</strong> Avoid promotional content, commercial advertisement or links!</li>
+    <li>We reserve the right to remove any members or content that violate these guidelines!</li>
+    </ul>
     </section>
 
     <h2>List of Community Members:</h2>
         <% if(users.length > 0) { %>
             <ul>
         <% users.forEach(user => { %>
-            <li><a href="/users/<%=user._id%>/posts"><%= user.username %></a></li>
+            <li><a href="/users/<%=user._id%>"><%= user.username %></a></li>
             <% }) %>
         </ul>
             <% } else { %>

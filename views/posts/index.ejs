@@ -10,24 +10,24 @@
     <% if(typeof message !== 'undefined' && message) { %>
         <p><%= message %></p>
         <% } %>
-    <h1>Welcome to <%= user.username %>'s page</h1>
+    <h1>Welcome to <%= blogOwner.username %>'s page</h1>
 
-    <% if (user._id.equals(locals.user?._id)) { %>
-    <a href ='/users/<%= user._id %>/posts/new'> Add a New Post</a>
+    <% if (locals.user && blogOwner._id.equals(locals.user?._id)) { %>
+    <a href ='/users/<%= blogOwner._id %>/posts/new'> Add a New Post</a>
     <% } %>
-    
+
     <% if (typeof posts !== 'undefined' && posts.length > 0) { %>
         <ul>
             <% posts.forEach((post)=> { %>
                 <li>
                     <%= post.title %>
                    
-                    <a href="/users/<%= user._id %>/posts/<%= post._id %>">View </a>
+                    <a href="/users/<%= blogOwner._id %>/posts/<%= post._id %>">View </a>
 
-                    <% if (user._id.equals(locals.user?._id)) { %>
-                    <a href="/users/<%= user._id %>/posts/<%= post._id %>/edit">Edit</a>
+                    <% if (locals.user && blogOwner._id.equals(locals.user?._id)) { %>
+                    <a href="/users/<%= blogOwner._id %>/posts/<%= post._id %>/edit">Edit</a>
 
-                     <form action="/users/<%= user._id %>/posts/<%= post._id %>?_method=DELETE" method="POST" style="display:inline;">
+                     <form action="/users/<%= blogOwner._id %>/posts/<%= post._id %>?_method=DELETE" method="POST" style="display:inline;">
                     <button type="submit">Delete</button>
                     </form>
                     <% } %>

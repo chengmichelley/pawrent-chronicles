@@ -1,7 +1,7 @@
 <nav>
+    <a href="/">Home</a>
     <% if(user) { %>
         <strong><%= user.username %></strong>
-        <a href="/">Home</a>
         <a href="/users/me">My Profile</a>
         <a href="/users/<%=user._id%>/posts">View My Blog</a>
         <a href="/auth/sign-out">Sign Out</a>

@@ -1,28 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>
-        <%=user.username %> Blog
-    </title>
+    <title>Pawrent Chronicles | <%= blogOwner.username %>'s Profile</title>
 </head>
-
 <body>
     <%- include('../partials/_navbar.ejs') %>
-        <h1>Welcome to <%= user.username %>'s Blog!</h1>
-            <% if(typeof posts !=='undefined' && posts.length> 0) { %>
-                <ul>
-                    <% posts.forEach((post)=> { %>
-                    <li><%= post.title %>
-                    <a href="/users/<%= user._id %>/posts/<%= post._id %>"> Read <%= post.title %></a>
-                    </li>
-                    <% }) %>
-                </ul>
-            <% } else { %>
-                <p><%= user.username %>'s Blog is empty!</p>
-            <% } %>
-</body>
+    <h1>Username: <em><%= blogOwner.username %></em></h1>
+    <p><strong>Member Since:</strong> <%= new Date(blogOwner.createdAt).toLocaleDateString() %></p>
+    <hr>
+    <h2>Meet My Pack!</h2>
+    <% if (blogOwner.pets && blogOwner.pets.length > 0) { %>
+        <ul>
+            <% blogOwner.pets.forEach((pet)=> {%>
+                <li>
+                    <%= pet.name %>'s a <%= pet.breed %> <%= pet.type %> <%= pet.gender %> is <%= pet.age %> years old!
+                </li>
+            <% }) %>
+        </ul>
+    <% } %>
 
+    <% if (locals.user && blogOwner._id.equals(locals.user._id)) { %>
+        <hr>
+        <h3>Add a New Fur Baby!</h3>
+        <form action="/users/<%= blogOwner._id %>/pets" method="POST">
+            <input type="text" name="name" id="name" placeholder="Fur Baby Name" required>
+            <label>Gender</label>
+            <select type="gender" name="gender" id="gendeer" required>
+                <option value="" disabled selected>Select Gender</option>
+                <option value="He">He</option>
+                <option value="She">She</option>
+            </select>
+            <input type="text" name="type" id="type" placeholder="Species, cat, dog, bird, etc" required>
+            <input type="text" name="breed" id="breed" placeholder="Breed" required>
+            <input type="number" name="age" id="age" placeholder="Age" required>
+            <button type="submit">Add To My Pack!</button>
+        </form>
+    <% } %>
+
+    <a href="/users/<%= blogOwner._id %>/posts">View My Pet Chronicles</a>
+    <% if (locals.user && blogOwner._id.equals(locals.user._id)) { %>
+    <p><a href="/users/<%= blogOwner._id %>/edit">Edit My Profile</a></p>
+    <% } %>
+    <p>Chronicles Shared:<%= blogOwner.posts.length %></p>
+</body>
 </html>

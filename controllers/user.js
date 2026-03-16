@@ -8,7 +8,7 @@ router.get("/me", authRequired, async (req, res) => {
   if (!currentUser) {
     return res.status(404).render("error", { message: "User not found" });
   }
-  res.render("profile", { user: currentUser });
+  res.render("users/show.ejs", { blogOwner: currentUser });
 });
 
 router.get("/", async (req, res) => {
@@ -32,8 +32,7 @@ router.get("/:userId", async (req, res) => {
       return res.status(404).render("error", { message: "User not found" });
     }
     res.render("users/show.ejs", {
-      user: foundUser,
-    //blog schema?
+      blogOwner: foundUser,
     });
   } catch (error) {
     console.log("SHOW Error", error);

@@ -8,7 +8,7 @@
   <body>
     <h1>Edit Post <%= post.title %></h1>
     <form
-      action="/users/<%=user._id %>/posts/<%= post._id %>?_method=PUT"
+      action="/users/<%=blogOwner._id %>/posts/<%= post._id %>?_method=PUT"
       method="POST"
     >
       <label for="title">Title:</label>
@@ -36,6 +36,7 @@
       />
 
       <button type="submit">Update Post!</button>
+      <a href="/users/<%= blogOwner._id %>/posts/<%= post._id %>">Cancel & Go Back</a>
     </form>
   </body>
 </html>

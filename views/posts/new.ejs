@@ -7,7 +7,7 @@
   </head>
   <body>
     <%- include('../partials/_navbar.ejs') %>
-<form action="/users/<%= user._id %>/posts" method="POST">
+<form action="/users/<%= blogOwner._id %>/posts" method="POST">
       <label for="title">Title:</label>
       <input
         type="text"
@@ -26,7 +26,7 @@
       ></textarea>
 
       <button type="submit">Add a New Post!</button>
-      <p><a href="/users/<%= user._id %>/posts">Back to My Posts!</a></p>
+      <p><a href="/users/<%= blogOwner._id %>/posts">Back to My Posts!</a></p>
     </form>
     </body>
     </html>

@@ -34,6 +34,13 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    pets: [{
+        name: String,
+        type: String,
+        breed: String,
+        gender: String,
+        age: Number,
+    }], 
     posts: [postSchema],
 }, {
     timestamps: true

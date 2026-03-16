@@ -10,10 +10,10 @@
     <h1><%= post.title %></h1>
     <p><em>Posted on: <%= post.createdAt.toLocaleDateString() %></em></p>
     <p>Content:<%= post.content %></p>
-    <% if(locals.user && user._id.equals(locals.user._id)) {%>
+    <% if(locals.user && blogOwner._id.equals(locals.user._id)) {%>
         <hr>
-        <a href="/users/<%= user._id %>/posts/<%= post._id %>/edit">Edit Post</a>
-        <form action="/users/<%= user._id %>/posts/<%= post._id %>?_method=DELETE" method="POST" style="display:inline;">
+        <a href="/users/<%= blogOwner._id %>/posts/<%= post._id %>/edit">Edit Post</a>
+        <form action="/users/<%= blogOwner._id %>/posts/<%= post._id %>?_method=DELETE" method="POST" style="display:inline;">
             <button type="submit">Delete Post</button>
         </form>
     <% } %>
@@ -23,8 +23,8 @@
             <% post.comments.forEach((comment) => { %>
                 <li>
                     <%= comment.username %> <%= comment.text %>
-                        <% if (locals.user && comment.username === locals.user.username) { %>
-                            <form action="/users/<%= user._id %>/posts/<%= post._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST" style="display:inline;">
+                        <% if (locals.user && (blogOwner._id.equals(locals.user._id) || comment.username === locals.user.username)) { %>
+                            <form action="/users/<%= blogOwner._id %>/posts/<%= post._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST" style="display:inline;">
                                 <button type="submit">Delete Comment</button>
                             </form>
                         <% } %>
@@ -37,7 +37,7 @@
 
 <% if (locals.user) { %>
 <h3>Add a comment:</h3>
-<form action="/users/<%= user._id %>/posts/<%= post._id %>/comments" method="POST">
+<form action="/users/<%= blogOwner._id %>/posts/<%= post._id %>/comments" method="POST">
     <textarea 
     name="text"
     placeholder="Write Your Comment Here" 
@@ -51,6 +51,6 @@
         <a href="/auth/sign-up">Sign Up</a> to leave a comment
     </p>
 <% } %>
-    <a href ="/users/<%= user._id %>/posts">Back to My Posts</a>
+    <a href ="/users/<%= blogOwner._id %>/posts">Back to <%= blogOwner.username %>'s Blog</a>
 </body>
 </html>
