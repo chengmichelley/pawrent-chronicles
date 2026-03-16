@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Blog Posts</title>
+</head>
+<body>
+    <%- include('../partials/_navbar.ejs') %>
+    <% if(typeof message !== 'undefined' && message) { %>
+        <p><%= message %></p>
+        <% } %>
+    <h1>Welcome to <%= user.username %>'s page</h1>
+
+    <% if (user._id.equals(locals.user?._id)) { %>
+    <a href ='/users/<%= user._id %>/posts/new'> Add a New Post</a>
+    <% } %>
+    
+    <% if (typeof posts !== 'undefined' && posts.length > 0) { %>
+        <ul>
+            <% posts.forEach((post)=> { %>
+                <li>
+                    <%= post.title %>
+                   
+                    <a href="/users/<%= user._id %>/posts/<%= post._id %>">View </a>
+
+                    <% if (user._id.equals(locals.user?._id)) { %>
+                    <a href="/users/<%= user._id %>/posts/<%= post._id %>/edit">Edit</a>
+
+                     <form action="/users/<%= user._id %>/posts/<%= post._id %>?_method=DELETE" method="POST" style="display:inline;">
+                    <button type="submit">Delete</button>
+                    </form>
+                    <% } %>
+                </li>
+            <% }) %>   
+        </ul>
+        <% } else { %>
+            <p>There are no posts from this profile.</p>
+        <% } %>
+</body>
+</html>

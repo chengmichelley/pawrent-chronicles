@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit Post <%= post.title %></title>
+  </head>
+  <body>
+    <h1>Edit Post <%= post.title %></h1>
+    <form
+      action="/users/<%=user._id %>/posts/<%= post._id %>?_method=PUT"
+      method="POST"
+    >
+      <label for="title">Title:</label>
+      <input
+        type="text"
+        id="title"
+        name="title"
+        value="<%= post.title %>"
+        required
+      />
+
+      <label for="content">Content: </label>
+      <textarea
+        name="content"
+        id="content"
+        placeholder="Enter details about Post"
+      ><%= post.content %></textarea>
+
+      <label for="deletedAt">Deleted</label>
+      <input 
+        type="checkbox" 
+        id="deletedAt" 
+        name="deletedAt" 
+        <%= post.deletedAt ? 'checked' : '' %>
+      />
+
+      <button type="submit">Update Post!</button>
+    </form>
+  </body>
+</html>

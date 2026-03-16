@@ -5,21 +5,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>
-        <%=user.username %> Pantry
+        <%=user.username %> Blog
     </title>
 </head>
 
 <body>
     <%- include('../partials/_navbar.ejs') %>
-        <h1>Welcome to <%= user.username %> Pantry</h1>
-            <% if (typeof pantry !=='undefined' && pantry.length> 0) { %>
+        <h1>Welcome to <%= user.username %>'s Blog!</h1>
+            <% if(typeof posts !=='undefined' && posts.length> 0) { %>
                 <ul>
-                    <% pantry.forEach((food)=> { %>
-                    <li><%= food.name %></li>
+                    <% posts.forEach((post)=> { %>
+                    <li><%= post.title %>
+                    <a href="/users/<%= user._id %>/posts/<%= post._id %>"> Read <%= post.title %></a>
+                    </li>
                     <% }) %>
                 </ul>
             <% } else { %>
-                <p><%= user.username %> pantry is empty!</p>
+                <p><%= user.username %>'s Blog is empty!</p>
             <% } %>
 </body>
 

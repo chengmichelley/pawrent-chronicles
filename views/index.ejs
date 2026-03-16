@@ -3,12 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome Page</title>
+    <title>Pawrent Chronicles | HOME</title>
 </head>
 <body>
     <%- include('partials/_navbar.ejs') %>
     <% if(user) { %>
         <h1>Welcome back <%= user.username %></h1>
+        <p>
+            <a href="/users/<%= user._id %>/posts">Go To My Blog</a>
+        </p>
+        <p>
+            <a href="/users/<%= user._id %>/posts/new">Share a New Experience!</a>
+        </p>
      <% } else { %>
         <h1>Pawrent Chronicles</h1>
         <h2>A Safe Space to Share Our Adventures with Our Beloved Fur Babies</h2>

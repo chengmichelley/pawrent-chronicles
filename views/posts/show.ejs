@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= post.title %></title>
+</head>
+<body>
+    <%- include('../partials/_navbar.ejs') %>
+    <h1><%= post.title %></h1>
+    <p><em>Posted on: <%= post.createdAt.toLocaleDateString() %></em></p>
+    <p>Content:<%= post.content %></p>
+    <% if(locals.user && user._id.equals(locals.user._id)) {%>
+        <hr>
+        <a href="/users/<%= user._id %>/posts/<%= post._id %>/edit">Edit Post</a>
+        <form action="/users/<%= user._id %>/posts/<%= post._id %>?_method=DELETE" method="POST" style="display:inline;">
+            <button type="submit">Delete Post</button>
+        </form>
+    <% } %>
+    <h2>Comments</h2>
+    <% if(post.comments.length > 0) { %>
+        <ul>
+            <% post.comments.forEach((comment) => { %>
+                <li>
+                    <%= comment.username %> <%= comment.text %>
+                        <% if (locals.user && comment.username === locals.user.username) { %>
+                            <form action="/users/<%= user._id %>/posts/<%= post._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST" style="display:inline;">
+                                <button type="submit">Delete Comment</button>
+                            </form>
+                        <% } %>
+                </li>
+                <% }) %>
+        </ul>
+    <% } else { %>
+        <p>No comments yet! Be the first!</p>
+    <% } %>
+
+<% if (locals.user) { %>
+<h3>Add a comment:</h3>
+<form action="/users/<%= user._id %>/posts/<%= post._id %>/comments" method="POST">
+    <textarea 
+    name="text"
+    placeholder="Write Your Comment Here" 
+    required></textarea>
+    <br />
+    <button type="submit">Submit Comment</button>
+</form>
+<% } else { %>
+    <p>
+        <a href="/auth/sign-in">Sign In</a> or
+        <a href="/auth/sign-up">Sign Up</a> to leave a comment
+    </p>
+<% } %>
+    <a href ="/users/<%= user._id %>/posts">Back to My Posts</a>
+</body>
+</html>

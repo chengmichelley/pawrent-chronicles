@@ -3,17 +3,24 @@ const router = express.Router({ mergeParams: true });
 const User = require('../models/user.js')
 
 //Index '/users/:userId/posts' GET
-router.get('/', async (req, res)=>{
+router.get('/', async (req, res)=> {
     try {
-        const currentUser = await User.findById(req.params.userId);
-        if(!currentUser) {
+        const blogOwner = await User.findById(req.params.userId);
+
+        if(!blogOwner) {
             return res.status(404).render('error', { message: "User not found" });
         }
-        res.locals.posts = currentUser.posts.filter(post=> !post.deletedAt);
+        
+        const posts = blogOwner.posts.filter(post => !post.deletedAt);
 
         const message = req.session.message;
         req.session.message = null;
-        res.render('posts/index.ejs')
+
+        res.render('posts/index.ejs', { 
+            posts: posts,
+            user: blogOwner,
+            message: message || null
+        });
     } catch (error) {
         console.log("Index Error", error);
         res.redirect('/')
@@ -24,12 +31,12 @@ router.get('/', async (req, res)=>{
 
 router.get('/new', async(req, res)=> {
     try{
-        const currentUser = await User.findById(req.params.userId);
+        const currentUser = await User.findById(req.session.user._id);
         if(!currentUser) {
             return res.status(404).render('error', {
                 message: 'User not found'});
-        }
-        res.render('posts/new.ejs', { userId: req.params.userId });
+        } 
+        res.render('posts/new.ejs', { user: currentUser });
     } catch (error) {
         res.redirect('/');
     }
@@ -53,7 +60,11 @@ router.post("/", async (req, res) => {
     }
 
     req.session.message = null;
-    currentUser.posts.push(req.body);
+    currentUser.posts.push({
+        title: req.body.title,
+        content: req.body.content
+    });
+
     currentUser.markModified("posts");
 
     await currentUser.save();
@@ -68,17 +79,22 @@ router.post("/", async (req, res) => {
 
 router.get("/:postId", async (req, res) => {
   try {
-    const currentUser = await User.findById(req.params.userId);
-    if (!currentUser) {
+    const blogOwner = await User.findById(req.params.userId);
+    if (!blogOwner) {
       return res.status(404).render("error", { message: "User not found" });
     }
-    const post = currentUser.posts.id(req.params.postId);
-    if (!post) {
+
+    const post = blogOwner.posts.id(req.params.postId);
+    if (!post || post.deletedAt) {
       return res.status(404).render("error", { message: "Post not found" });
     }
-    res.render("posts/show.ejs", { post: post });
+
+    res.render("posts/show.ejs", { 
+        post: post, 
+        user: blogOwner 
+    });
   } catch (error) {
-    console.log("SHOW Error", error);
+    console.log("Show Error", error);
     res.redirect(`/users/${req.params.userId}/posts`);
   }
 });
@@ -87,7 +103,7 @@ router.get("/:postId", async (req, res) => {
 
 router.get("/:postId/edit", async (req, res) => {
   try {
-    const currentUser = await User.findById(req.params.userId);
+    const currentUser = await User.findById(req.session.user._id);
     if (!currentUser) {
       return res.status(404).render("error", { message: "User not found" });
     }
@@ -95,7 +111,7 @@ router.get("/:postId/edit", async (req, res) => {
     if (!post) {
       return res.status(404).render("error", { message: "Post not found" });
     }
-    res.render("posts/edit.ejs", { post });
+    res.render("posts/edit.ejs", { post: post, user: currentUser });
   } catch (error) {
     res.redirect(`/`);
   }
@@ -105,7 +121,7 @@ router.get("/:postId/edit", async (req, res) => {
 
 router.put("/:postId", async (req, res) => {
   try {
-    const currentUser = await User.findById(req.params.userId);
+    const currentUser = await User.findById(req.session.user._id);
     if (!currentUser) {
       return res.status(404).render("error", { message: "User not found" });
     }
@@ -116,11 +132,17 @@ router.put("/:postId", async (req, res) => {
         .render("error", { message: "Cannot find post" });
     }
 
-    postUpdate.set(req.body);
+    const isDeleted = req.body.deletedAt === 'on' ? new Date() : null;
+
+    postUpdate.set({
+        title: req.body.title,
+        content: req.body.content,
+        deletedAt: isDeleted
+    });
+
     await currentUser.save();
-    res.redirect(`/users/${req.params.userId}/posts`);
+    res.redirect(`/users/${req.session.user._id}/posts`);
   } catch (error) {
-    res.render("UPDATE error", error);
     res.redirect(`/`);
   }
 });
@@ -140,9 +162,69 @@ router.delete('/:postId', async (req, res)=> {
         post.deletedAt = new Date();
 
         await currentUser.save();
-        res.redirect(`/users/${currentUser._id}/posts`);
+        res.redirect(`/users/${req.session.user._id}/posts`);
     } catch (error) {
         res.redirect('/');
+    }
+});
+
+router.post('/:postId/comments', async (req, res)=> {
+    try{
+        const postOwner = await User.findById(req.params.userId);
+        if(!postOwner) {
+          return res.status(404).render("error", { message: "User not found" });
+        }
+
+        const post = postOwner.posts.id(req.params.postId);
+        if (!post) {
+          return res.status(404).render("error", { message: "Cannot find post" });
+        }
+
+        post.comments.push({
+            text: req.body.text,
+            username: req.session.user.username
+        });
+
+        await postOwner.save();
+
+        res.redirect(`/users/${req.params.userId}/posts/${req.params.postId}`);
+    } catch (error) {
+        console.log("Comment Error", error);
+        res.redirect(`/users/${req.params.userId}/posts/${req.params.postId}`);
+    }
+});
+
+router.delete('/:postId/comments/:commentId', async (req, res)=> {
+    try {
+        const postOwner = await User.findById(req.params.userId);
+        if(!postOwner) {
+          return res.status(404).render("error", { message: "User not found" });
+        }
+
+        const post = postOwner.posts.id(req.params.postId);
+        if (!post) {
+          return res.status(404).render("error", { message: "Cannot find post" });
+        }
+        
+        const comment = post.comments.id(req.params.commentId);
+
+        const isBlogOwner = postOwner._id.equals(req.session.user._id);
+
+        const isCommentor = comment.username === req.session.user.username;
+
+        if(isBlogOwner || isCommentor) {
+            comment.deleteOne();
+            await postOwner.save();
+            res.redirect(
+              `/users/${req.params.userId}/posts/${req.params.postId}`,
+            );
+        } else {
+            return res.status(403).render("error", { message: "Unauthorized User"})
+        }
+
+    } catch (error) {
+        console.log('Delete Comment Error', error);
+        res.redirect(`/users/${req.params.userId}/posts/${req.params.postId}`);
     }
 });
 
