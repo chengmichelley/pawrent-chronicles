@@ -6,7 +6,6 @@ const User = require("../models/user.js");
 router.get("/", async (req, res) => {
 	try {
 		const blogOwner = await User.findById(req.params.userId);
-
 		if (!blogOwner) {
 			return res
 				.status(404)

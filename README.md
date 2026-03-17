@@ -41,6 +41,8 @@ My hope is that this blog can help build that same sense of community and suppor
 
 ## Attributions
 
+[MDN for using :root for CSS](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Selectors/:root)
+
 [NPM for Cloudinary](https://www.npmjs.com/package/cloudinary)
 
 [NPM for Multer](https://www.npmjs.com/package/multer)
@@ -75,30 +77,32 @@ While Working on the App I wanted to add more things to make the app more user f
 
 1. Allow users to upload profile photo.
 
-2. Allow users to filter blog posts/profiles.
+2. Add photo upload options to posts.
+
+3. Allow users to filter blog posts/profiles.
 	* Filter by user
 	* Filter by post content
 	* Filter by post date
 	* Filter by dog breeds
 
-3.	How to set user roles for additional functions; ie. ensure community members are following community guidelines.
+4.	How to set user roles for additional functions; ie. ensure community members are following community guidelines.
 	* Set Administrators
 	* Set Moderators
 
-4.	Allow people to make threads
+5.	Allow people to make threads
 	* Allow people to comment on other people's comments to create a thread 
 
-5.	Allow to follow other Pawrent Profiles
+6.	Allow to follow other Pawrent Profiles
 
-6.	Allow community members to privately message each other.
+7.	Allow community members to privately message each other.
 	* Allow to set if they want this feature or not
 
-7.	Set a geographic location
+8.	Set a geographic location
 	* Allow pawrents to meet up with their fur babies
 
-8.	Add more features for pets
+9.	Add more features for pets
 	* Add temperament
 	* Add photo gallery?
 	* Add their social media pages
 
-9. Allow Pawrents to select if interested in meet ups
+10. Allow Pawrents to select if interested in meet ups

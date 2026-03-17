@@ -11,28 +11,11 @@
 		<form action="/users/<%= blogOwner._id %>/posts" method="POST">
 			<div class="post-form-container">
 				<label for="title">Title:</label>
-				<input
-					type="text"
-					id="title"
-					name="title"
-					placeholder="Enter Title"
-					required
-				/>
-
+				<input type="text" id="title" name="title" placeholder="Enter Title" required/>
 				<label for="content">Content: </label>
-				<textarea
-					name="content"
-					id="content"
-					placeholder="Enter details about Your Post"
-					required
-				></textarea>
-
+				<textarea name="content" id="content" placeholder="Enter details about Your Post" required></textarea>
 				<button type="submit">Add a New Post!</button>
-				<p>
-					<a href="/users/<%= blogOwner._id %>/posts"
-						>Back to My Posts!</a
-					>
-				</p>
+				<p><a href="/users/<%= blogOwner._id %>/posts">Back to My Posts!</a></p>
 			</div>
 		</form>
 	</body>

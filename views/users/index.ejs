@@ -11,27 +11,27 @@
     <h1>Welcome to Our Community!</h1>
     <h2>Feel free to say hi and share Your Experience!</h2>
     <h3>To keep our community a safe and supported space please make sure all members and comments comply with our:</h3>
-    <section class = 'guidelines-container'>
-    <h1>Community Guidelines:</h1>
-    <ul>
-    <li><strong>Be Respectful:</strong> Treat others with kindness & empathy! No harassment or personal attacks!</li>
-    <li><strong>No hate speech:</strong> Any discrimination against race, religion, gender, orientation will not be tolerated!</li>
-    <li><strong>Stay Relevant:</strong> Keep comments relevant to food sharing and community building!</li>
-    <li><strong>Protect Privacy:</strong> Do not share any personal information about you or others!</li>
-    <li><strong>No Spam:</strong> Avoid promotional content, commercial advertisement or links!</li>
-    <li>We reserve the right to remove any members or content that violate these guidelines!</li>
-    </ul>
-    </section>
+    	<section class = 'guidelines-container'>
+    	<h1>Community Guidelines:</h1>
+    	<ul>
+    		<li><strong>Be Respectful:</strong> Treat others with kindness & empathy! No harassment or personal attacks!</li>
+    		<li><strong>No hate speech:</strong> Any discrimination against race, religion, gender, orientation will not be tolerated!</li>
+    		<li><strong>Stay Relevant:</strong> Keep comments relevant to food sharing and community building!</li>
+    		<li><strong>Protect Privacy:</strong> Do not share any personal information about you or others!</li>
+    		<li><strong>No Spam:</strong> Avoid promotional content, commercial advertisement or links!</li>
+    		<li>We reserve the right to remove any members or content that violate these guidelines!</li>
+    	</ul>
+    	</section>
 
     <h2>List of Community Members:</h2>
         <% if(users.length > 0) { %>
-            <ul>
+        <ul>
         <% users.forEach(user => { %>
             <li><a href="/users/<%=user._id%>"><%= user.username %></a></li>
             <% }) %>
         </ul>
             <% } else { %>
                 <p><a href="/auth/sign-up">Become The First Member of Our Community</a></p>
-        <% } %>
+        	<% } %>
 </body>
 </html>

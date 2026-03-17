@@ -32,31 +32,28 @@
                             </form>
                         <% } %>
                 </li>
-                <% }) %>
+            <% }) %>
         </ul>
     <% } else { %>
         <p class="no-comments">No comments yet! Be the first!</p>
     <% } %>
 
-<% if (locals.user) { %>
-<div class="comment-section">
-<h3>Add a comment:</h3>
-<form action="/users/<%= blogOwner._id %>/posts/<%= post._id %>/comments" method="POST">
-    <textarea 
-    name="text"
-    placeholder="Write Your Comment Here" 
-    required></textarea>
-    <button type="submit">Submit Comment</button>
-</form>
-</div>
-<% } else { %>
-    <p>
-        <a href="/auth/sign-in">Sign In</a> or
-        <a href="/auth/sign-up">Sign Up</a> to leave a comment
-    </p>
-<% } %>
+	<% if (locals.user) { %>
+	<div class="comment-section">
+	<h3>Add a comment:</h3>
+	<form action="/users/<%= blogOwner._id %>/posts/<%= post._id %>/comments" method="POST">
+    	<textarea name="text" placeholder="Write Your Comment Here" required></textarea>
+    	<button type="submit">Submit Comment</button>
+	</form>
+	</div>
+	<% } else { %>
+    	<p>
+        	<a href="/auth/sign-in">Sign In</a> or
+        	<a href="/auth/sign-up">Sign Up</a> to leave a comment
+    	</p>
+	<% } %>
     <div class="back-link-container">
-    <a href ="/users/<%= blogOwner._id %>/posts">Back to <%= blogOwner.username %>'s Blog</a>
+    	<a href ="/users/<%= blogOwner._id %>/posts">Back to <%= blogOwner.username %>'s Blog</a>
     </div>
 </body>
 </html>

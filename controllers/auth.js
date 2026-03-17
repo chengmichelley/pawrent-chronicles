@@ -10,9 +10,7 @@ router.get("/sign-up", (req, res) => {
 router.post("/sign-up", async (req, res) => {
 	try {
 		const { username, password, confirmPassword } = req.body;
-
 		const foundUser = await User.findOne({ username: username });
-
 		if (foundUser) {
 			throw new Error(`User with username ${username} already exist.`);
 		}
@@ -46,7 +44,6 @@ router.post("/sign-in", async (req, res) => {
 	const { username, password } = req.body;
 	try {
 		const foundUser = await User.findOne({ username }); // {username: username}
-
 		if (!foundUser) {
 			throw new Error(
 				`User with username ${username} does not exist. Please sign up.`,
@@ -57,7 +54,6 @@ router.post("/sign-in", async (req, res) => {
 			password,
 			foundUser.hashedPassword,
 		);
-
 		if (!isValidPassword) {
 			throw new Error("Password Incorrect, please try again");
 		}
