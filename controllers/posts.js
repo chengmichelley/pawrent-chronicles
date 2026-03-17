@@ -22,7 +22,6 @@ router.get('/', async (req, res)=> {
             message: message || null
         });
     } catch (error) {
-        console.log("Index Error", error);
         res.redirect('/')
     }
 });
@@ -77,7 +76,6 @@ router.post("/", async (req, res) => {
     await currentUser.save();
     res.redirect(`/users/${req.session.user._id}/posts`);
   } catch (error) {
-    console.log("POST error", error);
     res.redirect("/");
   }
 });
@@ -101,7 +99,6 @@ router.get("/:postId", async (req, res) => {
         blogOwner: blogOwner 
     });
   } catch (error) {
-    console.log("Show Error", error);
     res.redirect(`/users/${req.params.userId}/posts`);
   }
 });
@@ -205,7 +202,6 @@ router.post('/:postId/comments', async (req, res)=> {
 
         res.redirect(`/users/${req.params.userId}/posts/${req.params.postId}`);
     } catch (error) {
-        console.log("Comment Error", error);
         res.redirect(`/users/${req.params.userId}/posts/${req.params.postId}`);
     }
 });
@@ -239,7 +235,6 @@ router.delete('/:postId/comments/:commentId', async (req, res)=> {
         }
 
     } catch (error) {
-        console.log('Delete Comment Error', error);
         res.redirect(`/users/${req.params.userId}/posts/${req.params.postId}`);
     }
 });

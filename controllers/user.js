@@ -18,10 +18,8 @@ router.get("/", async (req, res) => {
     if (!allUsers) {
       return res.status(404).render("error", { message: "Users not found" });
     }
-    console.log("Users found in DB:", allUsers);
     res.render("users/index.ejs", { users: allUsers });
   } catch (error) {
-    console.log(`Error Loading Users`);
     res.redirect("/");
   }
 });
@@ -36,7 +34,6 @@ router.get("/:userId", async (req, res) => {
       blogOwner: foundUser,
     });
   } catch (error) {
-    console.log("SHOW Error", error);
     res.redirect(`/users`);
   }
 });
@@ -66,8 +63,6 @@ router.post("/:userId/pets", upload.single("photo"), async (req, res) => {
     await currentUser.save();
     res.redirect(`/users/${req.params.userId}`);
   } catch (error) {
-    console.log("---UPLOAD Error---");
-		console.dir(error, { depth: null });
     res.redirect(`/users/${req.params.userId}`);
   }
 });
@@ -119,8 +114,6 @@ router.put("/:userId/pets/:petId", authRequired, upload.single("photo"), async (
     await blogOwner.save();
     res.redirect(`/users/${req.params.userId}`);
   } catch (error) {
-				console.log("---UPDATE ERROR----");
-        console.dir(error, { depth: null }); 
     res.redirect(`/users/${req.params.userId}`);
   }
 });
