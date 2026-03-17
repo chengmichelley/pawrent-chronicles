@@ -1,35 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Add a New Post!</title>
-    <link rel="stylesheet" href="/css/style.css">
-  </head>
-  <body>
-    <%- include('../partials/_navbar.ejs') %>
-<form action="/users/<%= blogOwner._id %>/posts" method="POST">
-  <div class="post-form-container">
-      <label for="title">Title:</label>
-      <input
-        type="text"
-        id="title"
-        name="title"
-        placeholder="Enter Title"
-        required
-      />
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Add a New Post!</title>
+		<link rel="stylesheet" href="/css/style.css" />
+	</head>
+	<body>
+		<%- include('../partials/_navbar.ejs') %>
+		<form action="/users/<%= blogOwner._id %>/posts" method="POST">
+			<div class="post-form-container">
+				<label for="title">Title:</label>
+				<input
+					type="text"
+					id="title"
+					name="title"
+					placeholder="Enter Title"
+					required
+				/>
 
-      <label for="content">Content: </label>
-      <textarea
-        name="content"
-        id="content"
-        placeholder="Enter details about Your Post"
-        required
-      ></textarea>
+				<label for="content">Content: </label>
+				<textarea
+					name="content"
+					id="content"
+					placeholder="Enter details about Your Post"
+					required
+				></textarea>
 
-      <button type="submit">Add a New Post!</button>
-      <p><a href="/users/<%= blogOwner._id %>/posts">Back to My Posts!</a></p>
-    </div>
-    </form>
-    </body>
-    </html>
+				<button type="submit">Add a New Post!</button>
+				<p>
+					<a href="/users/<%= blogOwner._id %>/posts"
+						>Back to My Posts!</a
+					>
+				</p>
+			</div>
+		</form>
+	</body>
+</html>

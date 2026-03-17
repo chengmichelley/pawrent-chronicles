@@ -10,43 +10,53 @@
     <%- include('../partials/_navbar.ejs') %>
     <h1>Edit <%= pet.name %></h1>
     <form action="/users/<%= blogOwner._id %>/pets/<%= pet._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
-									<% if (pet.photo) { %>
-															<p>Current Photo:</p>
-															<img src="<%= pet.photo %>" alt="<%= pet.name %>" style="width:150px; border-radius:10px; display:block; margin-bottom:10px;">
-									<% }		%>
-									<div class="file-upload-container">			
-										<input type="file" name="photo" id="pet-photo-input" accept="image/*" hidden>
-										<label for="pet-photo-input" class="custom-file-upload">Choose Your Fur Baby's Photo!</label>
-											<span>Pick a good photo!</span>
-									</div>
-                                    
-            <input type="text" name="name" id="name" value ="<%= pet.name %>" required>
-            <label>Gender</label>
-            <select type="gender" name="gender" id="gender" required>
-                <option value="" disabled selected>Select Gender</option>
-                <option value="He" <%= pet.gender === 'He' ? 'selected' : '' %>>He</option>
-                <option value="She" <%= pet.gender === 'She' ? 'selected' : '' %>>She</option>
-            </select>
-            <select type="species" name="species" id="species" required>
-                <option value="" disabled selected>Species</option>
-                <option value="Dog" <%= pet.species === 'Dog' ? 'selected' : '' %>>Dog</option>
-                <option value="Cat" <%= pet.species === 'Cat' ? 'selected' : '' %>>Cat</option>
-            </select>
-            <input type="text" name="breed" id="breed" value ="<%= pet.breed %>" required>
-            <input type="number" name="age" id="age" value ="<%= pet.age %>" required>
-            <button type="submit">Update <%= pet.name %>!</button>
-            <a href="/users/<%= blogOwner._id %>">Cancel & Go Back</a>
-        </form>
-								<script>
-						const fileInput = document.getElementById('pet-photo-input');
-						const statusText = document.querySelector('.custom-file-upload + span');
+		<% if (pet.photo) { %>
+			<p>Current Photo:</p>
+			<img src="<%= pet.photo %>" alt="<%= pet.name %>" style="width:150px; border-radius:10px; display:block; margin-bottom:10px;">
+		<% } %>
+			<div class="file-upload-container">			
+				<input type="file" name="photo" id="pet-photo-input" accept="image/*" hidden>
+				<label for="pet-photo-input" class="custom-file-upload">Choose Your Fur Baby's Photo!</label>
+				<span>Pick a good photo!</span>
+			</div>           
+            	<input type="text" name="name" id="name" value ="<%= pet.name %>" required>
+           		<select type="gender" name="gender" id="gender" required>
+                	<option value="" disabled selected>Select Gender</option>
+                	<option value="He" <%= pet.gender === 'He' ? 'selected' : '' %>>He</option>
+                	<option value="She" <%= pet.gender === 'She' ? 'selected' : '' %>>She</option>
+            	</select>
+            	<select type="species" name="species" id="species" required>
+                	<option value="" disabled selected>Species</option>
+                	<option value="Dog" <%= pet.species === 'Dog' ? 'selected' : '' %>>Dog</option>
+                	<option value="Cat" <%= pet.species === 'Cat' ? 'selected' : '' %>>Cat</option>
+            	</select>
+            	<input type="text" name="breed" id="breed" value ="<%= pet.breed %>" required>
+            	<input type="number" name="age" id="age" value ="<%= pet.age %>" min=0 required>
+            	<button type="submit">Update <%= pet.name %>!</button>
+            	<a href="/users/<%= blogOwner._id %>">Cancel & Go Back</a>
+    </form>
+				<script>
+					const fileInput = document.getElementById('pet-photo-input');
+					const statusText = document.querySelector('.custom-file-upload + span');
+                    const ageInput = document.getElementById('age');
 
-						fileInput.addEventListener('change', function() {
-							if(this.files && this.files.length > 0) {
-								statusText.textContent= "Selected:" + this.files[0].name;
-								statusText.style.color= "#2ecc71";
+					ageInput.addEventListener('input', function() {
+					
+					const age = parseInt(this.value);
+						if(age < 0) {
+							this.value = 0;
+							alert('Fur baby cannot have a negative age!');
+						} else if (age > 35) {
+							this.value = 35;
+							alert("Are you sure your fur baby is over 35?");
+						}
+					});
+					fileInput.addEventListener('change', function() {
+						if(this.files && this.files.length > 0) {
+							statusText.textContent= "Selected:" + this.files[0].name;
+							statusText.style.color= "#2ecc71";
 							}
 						})
-					</script>
+				</script>
 </body>
 </html>

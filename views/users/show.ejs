@@ -1,86 +1,114 @@
-	<!DOCTYPE html>
-	<html lang="en">
-	<head>
-					<meta charset="UTF-8">
-					<meta name="viewport" content="width=device-width, initial-scale=1.0">
-					<link rel="stylesheet" href="/css/style.css">
-					<title>Pawrent Chronicles | <%= blogOwner.username %>'s Profile</title>
-	</head>
-	<body>
-					<%- include('../partials/_navbar.ejs') %>
-					<div class="profile">
-					<h1>Username: <em><%= blogOwner.username %></em></h1>
-					<p><strong>Member Since:</strong> <%= new Date(blogOwner.createdAt).toLocaleDateString() %></p>
-					<hr>
-					<h2>Meet My Pack!</h2>
-					<% if (blogOwner.pets && blogOwner.pets.length > 0) { %>
-									<ul>
-													<% blogOwner.pets.forEach((pet)=> {%>
-																	<li>
-																					<%= pet.name %>'s a <%= pet.breed %> <%= pet.species %>. <%= pet.gender %> is <%= pet.age %> years old!
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="/css/style.css" />
+        <title>Pawrent Chronicles | <%= blogOwner.username %>'s Profile</title>
+    </head>
+    <body>
+        <%- include('../partials/_navbar.ejs') %>
+        <div class="profile">
+            <h1>Username: <em><%= blogOwner.username %></em></h1>
+            <p>
+                <strong>Member Since:</strong> <%= new
+                Date(blogOwner.createdAt).toLocaleDateString() %>
+            </p>
+            <hr />
+            <h2>Meet My Pack!</h2>
+            <% if (blogOwner.pets && blogOwner.pets.length > 0) { %>
+            <ul>
+                <% blogOwner.pets.forEach((pet)=> {%>
+                <li>
+                    <%= pet.name %>'s a <%= pet.breed %> <%= pet.species %>. <%=
+                    pet.gender %> is <%= pet.age %> years old! <% if (pet.photo)
+                    { %>
+                    <img
+                        src="<%= pet.photo %>"
+                        alt="<%= pet.name %>"
+                        style="
+                            width: 150px;
+                            border-radius: 10px;
+                            display: block;
+                            margin-bottom: 10px;
+                        "
+                    />
+                    <% } else { %>
+                    <img
+                        src="/images/HappyDogAndCat.jpg"
+                        alt="Happy Dog and Cat"
+                        style="
+                            width: 150px;
+                            border-radius: 10px;
+                            display: block;
+                            margin-bottom: 10px;"/>
+                    <% } %> <% if (locals.user &&
+                    blogOwner._id.equals(locals.user._id)) { %>
+                    <a href="/users/<%= blogOwner._id %>/pets/<%= pet._id %>/edit">Edit Pet</a>
+                    <form action="/users/<%= blogOwner._id %>/pets/<%= pet._id %>?_method=DELETE" method="POST" style="display: inline">
+                        <button type="submit" class="delete-btn">Remove</button>
+                    </form>
+                    <% } %>
+                </li>
+                <% }) %>
+            </ul>
+            <% } %> <% if (locals.user && blogOwner._id.equals(locals.user._id))
+            { %>
+            <hr />
+            <h3>Add a New Fur Baby!</h3>
+            <form action="/users/<%= blogOwner._id %>/pets" method="POST" enctype="multipart/form-data">
+                <div class="form-container">
+                    <div class="file-upload-container">
+                        <input type="file" name="photo" id="pet-photo-input" accept="image/*" hidden/>
+                        <label for="pet-photo-input" class="custom-file-upload">Choose Your Fur Baby's Photo!</label>
+                        <span>Pick a good photo!</span>
+                    </div>
+                    <input type="text" name="name" id="name" placeholder="Fur Baby Name" required/>
+                    <select type="gender" name="gender" id="gender" required>
+                        <option value="" disabled selected>Select Gender</option>
+                        <option value="He">He</option>
+                        <option value="She">She</option>
+                    </select>
+                    <select type="species" name="species" id="species" required>
+                        <option value="" disabled selected>Species</option>
+                        <option value="Dog">Dog</option>
+                        <option value="Cat">Cat</option>
+                    </select>
+                    <input type="text"name="breed" id="breed" placeholder="Breed" required/>
+                    <input type="number" name="age" id="age" placeholder="Age" min="0" max="35" required/>
+                    <button type="submit">Add To My Pack!</button>
+                </div>
+            </form>
+            <% } %>
+            <a href="/users/<%= blogOwner._id %>/posts">View My Pet Chronicles</a>
+            <% if (locals.user && blogOwner._id.equals(locals.user._id)) { %>
+            <p>
+                <a href="/users/<%= blogOwner._id %>/edit" class="edit-btn">Edit My Profile</a>
+            </p>
+            <% } %>
+            <p>Chronicles Shared:<%= blogOwner.posts.length %></p>
+            <script>
+                const fileInput = document.getElementById('pet-photo-input');
+                const statusText = document.querySelector('.custom-file-upload + span');
+                const ageInput = document.getElementById('age');
 
-																					<% if (pet.photo) { %>
-																									<img src="<%= pet.photo %>" alt="<%= pet.name %>" style="width:150px; border-radius:10px; display:block; margin-bottom:10px;">
-																					<% } else { %>
-																									<img src="/images/HappyDogAndCat.jpg" alt="Happy Dog and Cat" style="width:150px; border-radius:10px; display:block; margin-bottom:10px;">
-																				 <% } %>
-																					<% if (locals.user && blogOwner._id.equals(locals.user._id)) { %>
-																									<a href="/users/<%= blogOwner._id %>/pets/<%= pet._id %>/edit">Edit Pet</a>
-
-																									<form action="/users/<%= blogOwner._id %>/pets/<%= pet._id %>?_method=DELETE" method="POST" style="display:inline;">
-																													<button type="submit">Remove</button>
-																									</form>
-																					<% } %>
-																	</li>
-													<% }) %>
-									</ul>
-					<% } %>
-
-					<% if (locals.user && blogOwner._id.equals(locals.user._id)) { %>
-									<hr>
-									<h3>Add a New Fur Baby!</h3>
-									<form action="/users/<%= blogOwner._id %>/pets" method="POST" enctype="multipart/form-data">
-										<div class="form-container">
-										<div class="file-upload-container">			
-										<input type="file" name="photo" id="pet-photo-input" accept="image/*" hidden>
-										<label for="pet-photo-input" class="custom-file-upload">Choose Your Fur Baby's Photo!</label>
-											<span>Pick a good photo!</span>
-									</div>
-													<input type="text" name="name" id="name" placeholder="Fur Baby Name" required>
-													<label>Gender</label>
-													<select type="gender" name="gender" id="gender" required>
-																	<option value="" disabled selected>Select Gender</option>
-																	<option value="He">He</option>
-																	<option value="She">She</option>
-													</select>
-													<select type="species" name="species" id="species" required>
-																	<option value="" disabled selected>Species</option>
-																	<option value="Dog">Dog</option>
-																	<option value="Cat">Cat</option>
-													</select>
-													<input type="text" name="breed" id="breed" placeholder="Breed" required>
-													<input type="number" name="age" id="age" placeholder="Age" required>
-													<button type="submit">Add To My Pack!</button>
-												</div>
-												</form>
-					<% } %>
-
-					<a href="/users/<%= blogOwner._id %>/posts">View My Pet Chronicles</a>
-					<% if (locals.user && blogOwner._id.equals(locals.user._id)) { %>
-					<p><a href="/users/<%= blogOwner._id %>/edit">Edit My Profile</a></p>
-					<% } %>
-					<p>Chronicles Shared:<%= blogOwner.posts.length %></p>
-					<script>
-						const fileInput = document.getElementById('pet-photo-input');
-						const statusText = document.querySelector('.custom-file-upload + span');
-
-						fileInput.addEventListener('change', function() {
-							if(this.files && this.files.length > 0) {
-								statusText.textContent= "Selected:" + this.files[0].name;
-								statusText.style.color= "#2ecc71";
-							}
-						})
-					</script>
-					</div>
-	</body>
-	</html>
+                ageInput.addEventListener('input', function() {
+                	const age = parseInt(this.value);
+                	if(age < 0) {
+                		this.value = 0;
+                		alert('Fur baby cannot have a negative age!');
+                	} else if (age > 35) {
+                		this.value = 35;
+                		alert("Are you sure your fur baby is over 35?");
+                	}
+                });
+                fileInput.addEventListener('change', function() {
+                	if(this.files && this.files.length > 0) {
+                		statusText.textContent= "Selected:" + this.files[0].name;
+                		statusText.style.color= "#2ecc71";
+                	}
+                })
+            </script>
+        </div>
+    </body>
+</html>
