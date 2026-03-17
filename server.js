@@ -15,6 +15,7 @@ const loggedIn = require("./middleware/loggedIn.js");
 const passDataToView = require("./middleware/passDataToView.js");
 
 require("./db/connection");
+
 app.use(morgan("tiny"));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
@@ -33,6 +34,8 @@ app.use(
 );
 app.use(passDataToView);
 
+app.use(express.static("public"));
+
 app.get("/", (req, res) => {
   res.render("index");
 });
@@ -43,7 +46,5 @@ app.use(loggedIn);
 app.use("/users", userController);
 
 app.use('/users/:userId/posts', postsController);
-
-app.use(express.static('public'));
 
 app.listen(PORT, () => console.log(`The port is running on: ${PORT}`));

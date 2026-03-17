@@ -9,7 +9,17 @@
 <body>
     <%- include('../partials/_navbar.ejs') %>
     <h1>Edit <%= pet.name %></h1>
-    <form action="/users/<%= blogOwner._id %>/pets/<%= pet._id %>?_method=PUT" method="POST">
+    <form action="/users/<%= blogOwner._id %>/pets/<%= pet._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
+									<% if (pet.photo) { %>
+															<p>Current Photo:</p>
+															<img src="<%= pet.photo %>" alt="<%= pet.name %>" style="width:150px; border-radius:10px; display:block; margin-bottom:10px;">
+									<% }		%>
+									<div class="file-upload-container">			
+										<input type="file" name="photo" id="pet-photo-input" accept="image/*" hidden>
+										<label for="pet-photo-input" class="custom-file-upload">Choose Your Fur Baby's Photo!</label>
+											<span>Pick a good photo!</span>
+									</div>
+                                    
             <input type="text" name="name" id="name" value ="<%= pet.name %>" required>
             <label>Gender</label>
             <select type="gender" name="gender" id="gender" required>
@@ -27,5 +37,16 @@
             <button type="submit">Update <%= pet.name %>!</button>
             <a href="/users/<%= blogOwner._id %>">Cancel & Go Back</a>
         </form>
+								<script>
+						const fileInput = document.getElementById('pet-photo-input');
+						const statusText = document.querySelector('.custom-file-upload + span');
+
+						fileInput.addEventListener('change', function() {
+							if(this.files && this.files.length > 0) {
+								statusText.textContent= "Selected:" + this.files[0].name;
+								statusText.style.color= "#2ecc71";
+							}
+						})
+					</script>
 </body>
 </html>

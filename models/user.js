@@ -40,6 +40,7 @@ const userSchema = new mongoose.Schema({
         breed: String,
         gender: String,
         age: Number,
+								photo: {type: String, default: ''}
     }], 
     posts: [postSchema],
 }, {

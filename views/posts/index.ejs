@@ -8,6 +8,7 @@
 </head>
 <body>
     <%- include('../partials/_navbar.ejs') %>
+    <div class="blog">
     <% if(typeof message !== 'undefined' && message) { %>
         <p><%= message %></p>
         <% } %>
@@ -22,7 +23,7 @@
             <% posts.forEach((post)=> { %>
                 <li>
                     <%= post.title %>
-                   
+                   <div style="margin-top: 10px">
                     <a href="/users/<%= blogOwner._id %>/posts/<%= post._id %>">View </a>
 
                     <% if (locals.user && blogOwner._id.equals(locals.user?._id)) { %>
@@ -32,11 +33,13 @@
                     <button type="submit">Delete</button>
                     </form>
                     <% } %>
+                </div>
                 </li>
             <% }) %>   
         </ul>
         <% } else { %>
             <p>There are no posts from this profile.</p>
         <% } %>
+        </div>
 </body>
 </html>

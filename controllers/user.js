@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const User = require("../models/user");
 const authRequired = require("../middleware/loggedIn");
+const upload = require("../middleware/upload");
 
 router.get("/me", authRequired, async (req, res) => {
   const currentUser = await User.findById(req.session.user._id);
@@ -40,29 +41,47 @@ router.get("/:userId", async (req, res) => {
   }
 });
 
-router.post("/:userId/pets", async (req, res)=> {
+router.post("/:userId/pets", upload.single("photo"), async (req, res) => {
   try {
     const currentUser = await User.findById(req.params.userId);
-      if (!currentUser) {
+    if (!currentUser) {
       return res.status(404).render("error", { message: "User not found" });
     }
-    currentUser.pets.push(req.body);
-    currentUser.markModified("pets");
+
+				if (!currentUser._id.equals(req.session.user._id)) {
+					return res.status(401).send("You are not authorized to add pets to this pack!")
+				}
+
+    const newPet = {
+      name: req.body.name,
+      gender: req.body.gender,
+      species: req.body.species,
+      breed: req.body.breed,
+      age: Number(req.body.age) || 0,
+      photo: req.file ? req.file.path : "",
+    };
+
+    currentUser.pets.push(newPet);
 
     await currentUser.save();
     res.redirect(`/users/${req.params.userId}`);
   } catch (error) {
-    console.log(error);
+    console.log("---UPLOAD Error---");
+		console.dir(error, { depth: null });
     res.redirect(`/users/${req.params.userId}`);
   }
 });
 
-router.get("/:userId/pets/:petId/edit", authRequired, async (req, res)=> {
+router.get("/:userId/pets/:petId/edit", authRequired, async (req, res) => {
   try {
     const blogOwner = await User.findById(req.params.userId);
     if (!blogOwner) {
       return res.status(404).render("error", { message: "User not found" });
     }
+
+				if (!blogOwner._id.equals(req.session.user._id)) {
+          return res.redirect(`/users/${req.params.userId}`);
+        }
 
     const pet = blogOwner.pets.id(req.params.petId);
     if (!pet) {
@@ -75,33 +94,47 @@ router.get("/:userId/pets/:petId/edit", authRequired, async (req, res)=> {
   }
 });
 
-router.put("/:userId/pets/:petId", authRequired, async (req, res)=> {
+router.put("/:userId/pets/:petId", authRequired, upload.single("photo"), async (req, res) => {
   try {
     const blogOwner = await User.findById(req.params.userId);
     if (!blogOwner) {
       return res.status(404).render("error", { message: "User not found" });
     }
+				if (!blogOwner._id.equals(req.session.user._id)) {
+					return res.status(401).send("You are not authorized to edit!")
+				}
 
     const pet = blogOwner.pets.id(req.params.petId);
-    if (!pet) {
-      return res.redirect(`/users/${req.params.userId}`);
-    }
+    
+				pet.name = req.body.name;
+				pet.gender = req.body.gender;
+				pet.species = req.body.species;
+				pet.breed = req.body.breed;
+				pet.age = Number(req.body.age) || 0;
 
-    pet.set(req.body);
+				if(req.file && req.file.path) {
+					pet.photo = req.file.path;
+				}
+
     await blogOwner.save();
-
     res.redirect(`/users/${req.params.userId}`);
   } catch (error) {
+				console.log("---UPDATE ERROR----");
+        console.dir(error, { depth: null }); 
     res.redirect(`/users/${req.params.userId}`);
   }
 });
 
-router.delete("/:userId/pets/:petId", authRequired, async (req, res)=> {
+router.delete("/:userId/pets/:petId", authRequired, async (req, res) => {
   try {
     const blogOwner = await User.findById(req.params.userId);
     if (!blogOwner) {
       return res.status(404).render("error", { message: "User not found" });
     }
+
+				if (!blogOwner._id.equals(req.session.user._id)) {
+          return res.status(401).send("You are not authorized to delete!");
+        }
 
     blogOwner.pets.id(req.params.petId).deleteOne();
     await blogOwner.save();

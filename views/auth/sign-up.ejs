@@ -8,7 +8,9 @@
   </head>
   <body>
     <%- include('../partials/_navbar.ejs') %>
-    <h1>Create a Account</h1>
+    <div class="auth">
+      <div class="post-form-container">
+                <h1>Create an Account</h1>
     <% if(typeof(message) !== undefined && message) { %>
       <p style="color:red;font-style:italic;"><%=  message %></p>
     <% } %>
@@ -27,5 +29,7 @@
       </div>
       <button type="submit">Sign up</button>
     </form>
+  </div>
+  </div>
   </body>
 </html>
