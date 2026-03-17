@@ -3,7 +3,7 @@
 
 ## Background
 
-I've always loved dogs and dreamed of becoming a Pawrent one day. Growing up with five sisters though, my parents were always against the idea. Still, I held on to the hope that it will happen for me one day.
+I've always loved dogs and dreamed of becoming a Pawrent one day. Growing up with five sisters though, my parents were always against the idea. Still, I held on to the hope that one day, it will happen for me.
 
 As life went on- college, starting my career- it never seemed like the right time. Something always got in the way and it just stayed in the back of my mind. 
 
@@ -13,13 +13,23 @@ On September 5, 2020, I went to pick up my fur baby- and my life changed forever
 
 ![Me Holding Milo in PA to Bringing Milo Home!](public/images/BringingMiloHome.png)
 
-Raising Milo has been one of the most fulfilling experiences of my life. He's brought me so much joy and happiness in ways I never imagined. Of course as a first-time Pawrent, there were so many questions and so many unknowns along the way. 
+Raising Milo has been one of the most fulfilling experiences of my life. He's brought me a kind of joy and happiness I never could've imagined. He isn't just my dog- he's my family, my everyday and the most special piece of my heart. 
 
-What I didn't expect was, how life-changing the people I met because of Milo would be. Some of my closest friends to this day, started with a simple "Hi, can I say hi to your dog?", or meeting at the dog park or going for a walk. We bonded over our shared love for our fur babies, and those connections have meant so much to me.
+Of course as a first-time Pawrent, there were so many questions and uncertainties along the way. There were moments of doubt, moments where I wondered if I was doing the right thing- but somehow, we figured it out.
 
-That's what inspired me to create ***Pawrent Chronicles***- a space for dog lovers, current Pawrents and anyone thinking about getting a pup, to find the kind of community I was lucky enough to discover. A place where we can ask questions _(even the ones that feel silly)_, connect with others going through the same experiences, and learn from what's worked for each other's pups. It's also a space to share joyful moments and stories that can brighten someone's day.
+What really surprised me was how much Milo would change my world beyond the two of us. Because of Milo, I have met some of my closest friends to this day. It started with a simple smile, or "Hello", passing each other on a walk or meeting at the dog park. We bonded over our shared love for our fur babies, and those connections have meant so much to me.
 
-The amazing thing is that, thanks to social media and the internet, we don't have to meet at a dog park or live in the same area to connect. My hope is that this blog can help build that same sense of community and support that meant so much to me while raising Milo. There's truly nothing like being surrounded by people who understand and share the love you have for your fur baby.
+>That's what inspired me to create ***Pawrent Chronicles***. 
+
+I wanted to create a space for people like us- for dog lovers, current Pawrents and anyone thinking about bringing a pup into their life. A place where we can ask questions _(even the ones that feel silly)_, connect with others going through the same experiences, and learn from what's worked for each other's pups. A space to share joyful moments and stories that can brighten someone's day.
+
+But more than anything, I want this to be a place where people feel understood.
+
+Because raising a dog or a cat is emotional. At times it can be overwhelming and __hard__ but it is also rewarding and ___beautiful___. They give us unconditional love and support. And having people who _get it_, who have been through it and are going through it makes all the difference.
+
+The amazing thing is that, thanks to social media and the internet, we don't have to rely on chance to meet at a dog park or live in the same area to find that connection. 
+
+My hope is that this blog can help build that same sense of community and support that meant so much to me while raising Milo. Because there's truly nothing like being surrounded by people who understand and share the love you have for your fur baby.
 
 ## Getting Started
 
