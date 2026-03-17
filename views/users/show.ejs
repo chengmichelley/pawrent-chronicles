@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
     <title>Pawrent Chronicles | <%= blogOwner.username %>'s Profile</title>
 </head>
 <body>
@@ -15,7 +16,15 @@
         <ul>
             <% blogOwner.pets.forEach((pet)=> {%>
                 <li>
-                    <%= pet.name %>'s a <%= pet.breed %> <%= pet.type %> <%= pet.gender %> is <%= pet.age %> years old!
+                    <%= pet.name %>'s a <%= pet.breed %> <%= pet.species %>. <%= pet.gender %> is <%= pet.age %> years old!
+
+                    <% if (locals.user && blogOwner._id.equals(locals.user._id)) { %>
+                        <a href="/users/<%= blogOwner._id %>/pets/<%= pet._id %>/edit">Edit Pet</a>
+
+                        <form action="/users/<%= blogOwner._id %>/pets/<%= pet._id %>?_method=DELETE" method="POST" style="display:inline;">
+                            <button type="submit">Remove</button>
+                        </form>
+                    <% } %>
                 </li>
             <% }) %>
         </ul>
@@ -27,12 +36,16 @@
         <form action="/users/<%= blogOwner._id %>/pets" method="POST">
             <input type="text" name="name" id="name" placeholder="Fur Baby Name" required>
             <label>Gender</label>
-            <select type="gender" name="gender" id="gendeer" required>
+            <select type="gender" name="gender" id="gender" required>
                 <option value="" disabled selected>Select Gender</option>
                 <option value="He">He</option>
                 <option value="She">She</option>
             </select>
-            <input type="text" name="type" id="type" placeholder="Species, cat, dog, bird, etc" required>
+            <select type="species" name="species" id="species" required>
+                <option value="" disabled selected>Species</option>
+                <option value="Dog">Dog</option>
+                <option value="Cat">Cat</option>
+            </select>
             <input type="text" name="breed" id="breed" placeholder="Breed" required>
             <input type="number" name="age" id="age" placeholder="Age" required>
             <button type="submit">Add To My Pack!</button>

@@ -44,4 +44,6 @@ app.use("/users", userController);
 
 app.use('/users/:userId/posts', postsController);
 
+app.use(express.static('public'));
+
 app.listen(PORT, () => console.log(`The port is running on: ${PORT}`));

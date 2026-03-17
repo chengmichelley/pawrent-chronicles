@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+    <title>Edit <%= pet.name %></title>
+</head>
+<body>
+    <%- include('../partials/_navbar.ejs') %>
+    <h1>Edit <%= pet.name %></h1>
+    <form action="/users/<%= blogOwner._id %>/pets/<%= pet._id %>?_method=PUT" method="POST">
+            <input type="text" name="name" id="name" value ="<%= pet.name %>" required>
+            <label>Gender</label>
+            <select type="gender" name="gender" id="gender" required>
+                <option value="" disabled selected>Select Gender</option>
+                <option value="He" <%= pet.gender === 'He' ? 'selected' : '' %>>He</option>
+                <option value="She" <%= pet.gender === 'She' ? 'selected' : '' %>>She</option>
+            </select>
+            <select type="species" name="species" id="species" required>
+                <option value="" disabled selected>Species</option>
+                <option value="Dog" <%= pet.species === 'Dog' ? 'selected' : '' %>>Dog</option>
+                <option value="Cat" <%= pet.species === 'Cat' ? 'selected' : '' %>>Cat</option>
+            </select>
+            <input type="text" name="breed" id="breed" value ="<%= pet.breed %>" required>
+            <input type="number" name="age" id="age" value ="<%= pet.age %>" required>
+            <button type="submit">Update <%= pet.name %>!</button>
+            <a href="/users/<%= blogOwner._id %>">Cancel & Go Back</a>
+        </form>
+</body>
+</html>

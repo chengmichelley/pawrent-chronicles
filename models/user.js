@@ -36,7 +36,7 @@ const userSchema = new mongoose.Schema({
     },
     pets: [{
         name: String,
-        type: String,
+        species: String,
         breed: String,
         gender: String,
         age: Number,
