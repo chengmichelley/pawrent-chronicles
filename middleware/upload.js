@@ -20,10 +20,13 @@ console.log("Cloudinary Config Check:", cloudinary.config().cloud_name);
 
 const storage = new CloudinaryStorage({
 	cloudinary: cloudinary,
-	params: {
-		folder: "pawrent_chronicles",
-		allowed_formats: ["jpg", "png", "jpeg"],
-	},
+	params: async (req, file)=> {
+		return {
+			folder: "pawrent_chronicles",
+			allowed_formats: ["jpg", "png", "jpeg"],
+			public_id: file.filename + '-' + Date.now(),
+	};
+}
 });
 
 const upload = multer({ storage: storage });
