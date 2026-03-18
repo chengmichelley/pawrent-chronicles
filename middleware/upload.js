@@ -24,7 +24,6 @@ const storage = new CloudinaryStorage({
 		return {
 			folder: "pawrent_chronicles",
 			allowed_formats: ["jpg", "png", "jpeg"],
-			public_id: file.filename + '-' + Date.now(),
 	};
 }
 });

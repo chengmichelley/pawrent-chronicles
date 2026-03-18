@@ -71,8 +71,10 @@ router.post("/:userId/pets", upload.single("photo"), async (req, res) => {
 		await currentUser.save();
 		res.redirect(`/users/${req.params.userId}`);
 	} catch (error) {
-		res.redirect(`/users/${req.params.userId}`);
-	}
+    console.error("DETAILED UPLOAD ERROR:", JSON.stringify(error, null, 2)); 
+    res.redirect(`/users/${req.params.userId}`);
+}
+
 });
 
 router.get("/:userId/pets/:petId/edit", authRequired, async (req, res) => {
