@@ -71,9 +71,8 @@ router.post("/:userId/pets", upload.single("photo"), async (req, res) => {
 		await currentUser.save();
 		res.redirect(`/users/${req.params.userId}`);
 	} catch (error) {
-    console.error("DETAILED UPLOAD ERROR:", JSON.stringify(error, null, 2)); 
-    res.redirect(`/users/${req.params.userId}`);
-}
+		res.redirect(`/users/${req.params.userId}`);
+	}
 
 });
 
