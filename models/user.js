@@ -9,6 +9,10 @@ const postSchema = new mongoose.Schema({
 		type: String,
 		required: true,
 	},
+	photo: {
+		type: String,
+		required: false,
+	},
 	comments: [{
 		text: { type: String, required: true },
 		username: { type: String, required: true },
@@ -32,6 +36,10 @@ const userSchema = new mongoose.Schema({
 	hashedPassword: {
 		type: String,
 		required: true,
+	},
+	photo: {
+		type: String,
+		required: false,
 	},
 	pets: [{
 		name: String,

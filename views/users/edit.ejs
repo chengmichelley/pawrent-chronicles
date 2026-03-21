@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+    <title>Edit Profile <%= blogOwner.username %></title>
+</head>
+<body>
+    <%- include('../partials/_navbar.ejs') %>
+	<div class="profile-edit-container">
+    <h1>Edit My Profile</h1>
+    <form action="/users/<%= blogOwner._id %>/profile/?_method=PUT" method="POST" enctype="multipart/form-data">
+		<% if (blogOwner.photo) { %>
+			<p>Current Profile Photo:</p>
+			<img src="<%= blogOwner.photo %>" alt="<%= blogOwner.username %>">
+		<% } %>
+			<div class="file-upload-container">			
+				<input type="file" name="blogOwnerPhoto" id="profile-photo-input" accept="image/*" hidden>
+				<label for="profile-photo-input" class="custom-file-upload">Choose a New Profile Photo!</label>
+				<span id="file-status">Pick a good photo of yourself!</span>
+			</div>           
+            	<button type="submit">Update <%= blogOwner.username %>'s Photo!</button>
+            	<a href="/users/<%= blogOwner._id %>">Cancel & Go Back</a>
+    </form>
+	</div>
+				<script>
+					const fileInput = document.getElementById('profile-photo-input');
+					const statusText = document.getElementById('file-status');
+					
+					fileInput.addEventListener('change', function() {
+						if(this.files && this.files.length > 0) {
+							statusText.textContent= "Selected:" + this.files[0].name;
+							statusText.style.color= "#2ecc71";
+							}
+						})
+				</script>
+</body>
+</html>

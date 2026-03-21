@@ -10,6 +10,11 @@
     <%- include('partials/_navbar.ejs') %>
     <div class="home-content">
     <% if(user) { %>
+		<% if (user.photo) { %>
+            <img src="<%= user.photo %>" alt="<%= user.username %>">
+        <% } else { %>
+			<div class="profile-placeholder">👤</div>
+		<% } %>
         <h1>Welcome back <%= user.username %></h1>
         <p><a href="/users/<%= user._id %>/posts">Go To My Blog</a></p>
         <p><a href="/users/<%= user._id %>/posts/new">Share a New Experience!</a></p>

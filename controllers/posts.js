@@ -1,5 +1,7 @@
 const express = require("express");
 const router = express.Router({ mergeParams: true });
+const multer = require("multer");
+const upload = require("../middleware/upload");
 const User = require("../models/user.js");
 
 //Index '/users/:userId/posts' GET
@@ -49,7 +51,7 @@ router.get("/new", async (req, res) => {
 
 //Create '/users/:userId/posts' POST
 
-router.post("/", async (req, res) => {
+router.post("/", upload.single('postPhoto'), async (req, res) => {
 	try {
 		if (req.params.userId !== req.session.user._id) {
 			return res.status(403).send("Unauthorized");
@@ -72,9 +74,11 @@ router.post("/", async (req, res) => {
 		}
 
 		req.session.message = null;
+
 		currentUser.posts.push({
 			title: req.body.title,
 			content: req.body.content,
+			photo: req.file ? req.file.path : null
 		});
 
 		currentUser.markModified("posts");
@@ -140,7 +144,7 @@ router.get("/:postId/edit", async (req, res) => {
 
 //Update '/users/:userId/posts/:postId' PUT
 
-router.put("/:postId", async (req, res) => {
+router.put("/:postId", upload.single('postPhoto'), async (req, res) => {
 	try {
 		if (req.params.userId !== req.session.user._id) {
 			return res.status(403).send("Unauthorized");
@@ -164,6 +168,7 @@ router.put("/:postId", async (req, res) => {
 			title: req.body.title,
 			content: req.body.content,
 			deletedAt: isDeleted,
+			photo: req.file ? req.file.path : postUpdate.photo
 		});
 
 		await currentUser.save();

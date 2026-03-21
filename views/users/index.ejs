@@ -25,10 +25,17 @@
 
     <h2>List of Community Members:</h2>
         <% if(users.length > 0) { %>
-        <ul>
+        <ul class="communit-list">
         <% users.forEach(user => { %>
-            <li><a href="/users/<%=user._id%>"><%= user.username %></a></li>
-            <% }) %>
+			<li>
+				<% if (user.photo) { %>
+			<img src="<%= user.photo %>" alt="<%= user.username %>" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 1px solid #ccc;">
+			<% } else { %>
+				<div class="profile-placeholder">👤</div>
+            <% } %>
+			    <a href="/users/<%=user._id%>"><%= user.username %></a>
+			</li>
+			<% })%>
         </ul>
             <% } else { %>
                 <p><a href="/auth/sign-up">Become The First Member of Our Community</a></p>

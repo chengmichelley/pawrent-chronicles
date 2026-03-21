@@ -9,6 +9,12 @@
     <body>
         <%- include('../partials/_navbar.ejs') %>
         <div class="profile">
+			<% if(blogOwner.photo) { %>
+				<img src="<%= blogOwner.photo %>" alt="<%= blogOwner.username %>">
+			<% } else { %>
+				<div class="profile-placeholder">👤</div>
+
+			<% } %>
             <h1>Username: <em><%= blogOwner.username %></em></h1>
             <p>
                 <strong>Member Since:</strong> <%= new
@@ -23,29 +29,16 @@
                     <%= pet.name %>'s a <%= pet.breed %> <%= pet.species %>. <%=
                     pet.gender %> is <%= pet.age %> years old! <% if (pet.photo)
                     { %>
-                    <img
-                        src="<%= pet.photo %>"
-                        alt="<%= pet.name %>"
-                        style="
-                            width: 150px;
-                            border-radius: 10px;
-                            display: block;
-                            margin-bottom: 10px;
-                        "
-                    />
+                    <img src="<%= pet.photo %>" alt="<%= pet.name %>" class="pet-edit-photo" />
                     <% } else { %>
                     <img
                         src="/images/HappyDogAndCat.jpg"
-                        alt="Happy Dog and Cat"
-                        style="
-                            width: 150px;
-                            border-radius: 10px;
-                            display: block;
-                            margin-bottom: 10px;"/>
+                        alt="Happy Dog and Cat"/>
+						class="pet-edit-photo"
                     <% } %> <% if (locals.user &&
                     blogOwner._id.equals(locals.user._id)) { %>
                     <a href="/users/<%= blogOwner._id %>/pets/<%= pet._id %>/edit">Edit Pet</a>
-                    <form action="/users/<%= blogOwner._id %>/pets/<%= pet._id %>?_method=DELETE" method="POST" style="display: inline">
+                    <form action="/users/<%= blogOwner._id %>/pets/<%= pet._id %>?_method=DELETE" method="POST">
                         <button type="submit" class="delete-btn">Remove</button>
                     </form>
                     <% } %>
@@ -61,7 +54,8 @@
                     <div class="file-upload-container">
                         <input type="file" name="photo" id="pet-photo-input" accept="image/*" hidden/>
                         <label for="pet-photo-input" class="custom-file-upload">Choose Your Fur Baby's Photo!</label>
-                        <span>Pick a good photo!</span>
+						<span class="file-requirement">Files must be under 100MB</span>
+                        <span id="pet-file-status">Pick a good photo!</span>
                     </div>
                     <input type="text" name="name" id="name" placeholder="Fur Baby Name" required/>
                     <select type="gender" name="gender" id="gender" required>
@@ -87,28 +81,52 @@
             </p>
             <% } %>
             <p>Chronicles Shared:<%= blogOwner.posts.length %></p>
-            <script>
-                const fileInput = document.getElementById('pet-photo-input');
-                const statusText = document.querySelector('.custom-file-upload + span');
-                const ageInput = document.getElementById('age');
 
-                ageInput.addEventListener('input', function() {
-                	const age = parseInt(this.value);
-                	if(age < 0) {
-                		this.value = 0;
-                		alert('Fur baby cannot have a negative age!');
-                	} else if (age > 35) {
-                		this.value = 35;
-                		alert("Are you sure your fur baby is over 35?");
-                	}
-                });
-                fileInput.addEventListener('change', function() {
-                	if(this.files && this.files.length > 0) {
-                		statusText.textContent= "Selected:" + this.files[0].name;
-                		statusText.style.color= "#2ecc71";
-                	}
-                })
-            </script>
+            <script>
+    			const fileInput = document.getElementById('pet-photo-input');
+    			const statusText = document.querySelector('.file-requirement + span');
+   				const ageInput = document.getElementById('age');
+				const petForm = document.querySelector('form[action$="/pets"]');
+
+    			ageInput.addEventListener('input', function() {
+        
+				const age = parseInt(this.value);
+        			if(age < 0) {
+            			this.value = 0;
+           				 alert('Fur baby cannot have a negative age!');
+        			} else if (age > 35) {
+            			this.value = 35;
+            			alert("Are you sure your fur baby is over 35?");
+        	}
+    	});
+
+    	fileInput.addEventListener('change', function() {
+        	if(this.files && this.files.length > 0) {
+            const fileSize = this.files[0].size / 1024 / 1024; 
+            
+            if (fileSize > 100) {
+                alert("This file is too large! Please choose a photo under 100MB.");
+                this.value = ""; 
+                statusText.textContent = "File too large (Max 100MB)";
+                statusText.style.color = "#e74c3c";
+            } else {
+                statusText.textContent = "Selected: " + this.files[0].name;
+                statusText.style.color = "#2ecc71";
+            }
+        }
+    });
+
+	if (petForm) {
+		petForm.addEventListener('submit', function() {
+			const btn = this.querySelector('button[type="submit"]');
+
+			btn.textContent = "Uploading... please wait";
+			btn.style.opacity = ".7";
+			btn.disabled = true;
+		});
+	}
+</script>
+
         </div>
     </body>
 </html>

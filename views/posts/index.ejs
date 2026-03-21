@@ -8,12 +8,16 @@
 </head>
 <body>
     <%- include('../partials/_navbar.ejs') %>
-    <div class="blog">
-    <% if(typeof message !== 'undefined' && message) { %>
+    <div class ="blogHeader">
+		<% if (blogOwner.photo) {%>
+			<img src="<%= blogOwner.photo %>" alt="<%= blogOwner.username %>">
+    	<% } %>
+			<% if(typeof message !== 'undefined' && message) { %>
         <p><%= message %></p>
         <% } %>
     <h1>Welcome to <%= blogOwner.username %>'s page</h1>
-
+	</div>
+	<div class="blogPost">
     <% if (locals.user && blogOwner._id.equals(locals.user?._id)) { %>
     <a href ='/users/<%= blogOwner._id %>/posts/new'> Add a New Post</a>
     <% } %>
@@ -22,14 +26,17 @@
         <ul>
             <% posts.forEach((post)=> { %>
                 <li>
+					<% if(post.photo) {%>
+						<img src="<%= post.photo %>" alt="<%= post.title %>">
+					<% } %>
                     <%= post.title %>
-                   <div style="margin-top: 10px">
+                   <div class="blog">
                     <a href="/users/<%= blogOwner._id %>/posts/<%= post._id %>">View </a>
 
                     <% if (locals.user && blogOwner._id.equals(locals.user?._id)) { %>
                     <a href="/users/<%= blogOwner._id %>/posts/<%= post._id %>/edit">Edit</a>
 
-                     <form action="/users/<%= blogOwner._id %>/posts/<%= post._id %>?_method=DELETE" method="POST" style="display:inline;">
+                     <form action="/users/<%= blogOwner._id %>/posts/<%= post._id %>?_method=DELETE" method="POST">
                     <button type="submit">Delete</button>
                     </form>
                     <% } %>

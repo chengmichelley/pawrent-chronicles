@@ -11,8 +11,10 @@
     <h1>Edit <%= pet.name %></h1>
     <form action="/users/<%= blogOwner._id %>/pets/<%= pet._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
 		<% if (pet.photo) { %>
-			<p>Current Photo:</p>
-			<img src="<%= pet.photo %>" alt="<%= pet.name %>" style="width:150px; border-radius:10px; display:block; margin-bottom:10px;">
+    <p>Current Photo:</p>
+    <img src="<%= pet.photo %>" alt="<%= pet.name %>" 
+     style="width: 150px !important; height: 150px !important; min-width: 0 !important; min-height: 0 !important; object-fit: cover; border-radius: 12px; border: 3px solid #e6b89c; display: block; margin-bottom: 20px;">
+
 		<% } %>
 			<div class="file-upload-container">			
 				<input type="file" name="photo" id="pet-photo-input" accept="image/*" hidden>
@@ -32,9 +34,11 @@
             	</select>
             	<input type="text" name="breed" id="breed" value ="<%= pet.breed %>" required>
             	<input type="number" name="age" id="age" value ="<%= pet.age %>" min=0 required>
-            	<button type="submit">Update <%= pet.name %>!</button>
+            	<div class="button-group">
+				<button type="submit">Update <%= pet.name %>!</button>
             	<a href="/users/<%= blogOwner._id %>">Cancel & Go Back</a>
-    </form>
+				</div>
+			</form>
 				<script>
 					const fileInput = document.getElementById('pet-photo-input');
 					const statusText = document.querySelector('.custom-file-upload + span');

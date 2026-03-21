@@ -42,6 +42,25 @@ router.get("/:userId", async (req, res) => {
 	}
 });
 
+router.put("/:userId/profile", authRequired, upload.single("blogOwnerPhoto"), async (req, res)=> {
+	try {
+		const currentUser = await User.findById(req.params.userId);
+
+		if (!currentUser._id.equals(req.session.user.
+			_id)) {
+				return res.status(401).send("Unauthorized!");
+			}
+		if (req.file) {
+			currentUser.photo = req.file.path;
+			await currentUser.save();
+			req.session.user.photo = currentUser.photo;
+		}
+		res.redirect(`/users/${req.params.userId}`);
+	} catch (error) {
+		res.redirect(`/users/${req.params.userId}`);
+	}
+});
+
 router.post("/:userId/pets", upload.single("photo"), async (req, res) => {
 	try {
 		const currentUser = await User.findById(req.params.userId);
@@ -100,39 +119,35 @@ router.get("/:userId/pets/:petId/edit", authRequired, async (req, res) => {
 	}
 });
 
-router.put(
-	"/:userId/pets/:petId",
-	authRequired,
-	upload.single("photo"),
-	async (req, res) => {
-		try {
-			const blogOwner = await User.findById(req.params.userId);
-			if (!blogOwner) {
-				return res
-					.status(404)
-					.render("error", { message: "User not found" });
-			}
-			if (!blogOwner._id.equals(req.session.user._id)) {
-				return res.status(401).send("You are not authorized to edit!");
-			}
-
-			const pet = blogOwner.pets.id(req.params.petId);
-
-			pet.name = req.body.name;
-			pet.gender = req.body.gender;
-			pet.species = req.body.species;
-			pet.breed = req.body.breed;
-			pet.age = Number(req.body.age) || 0;
-
-			if (req.file && req.file.path) {
-				pet.photo = req.file.path;
-			}
-
-			await blogOwner.save();
-			res.redirect(`/users/${req.params.userId}`);
-		} catch (error) {
-			res.redirect(`/users/${req.params.userId}`);
+router.put("/:userId/pets/:petId", authRequired, upload.single("photo"), async (req, res) => {
+	try {
+		const blogOwner = await User.findById(req.params.userId);
+		if (!blogOwner) {
+			return res
+				.status(404)
+				.render("error", { message: "User not found" });
 		}
+		if (!blogOwner._id.equals(req.session.user._id)) {
+				return res.status(401).send("You are not authorized to edit!");
+		}
+
+		const pet = blogOwner.pets.id(req.params.petId);
+
+		pet.name = req.body.name;
+		pet.gender = req.body.gender;
+		pet.species = req.body.species;
+		pet.breed = req.body.breed;
+		pet.age = Number(req.body.age) || 0;
+
+		if (req.file && req.file.path) {
+			pet.photo = req.file.path;
+		}
+
+		await blogOwner.save();
+		res.redirect(`/users/${req.params.userId}`);
+	} catch (error) {
+		res.redirect(`/users/${req.params.userId}`);
+	}
 	},
 );
 

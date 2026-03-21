@@ -9,13 +9,25 @@
 <body>
     <%- include('../partials/_navbar.ejs') %>
     <h1><%= post.title %></h1>
-    <p><em>Posted on: <%= post.createdAt.toLocaleDateString() %></em></p>
+	<% if (post.photo) { %>
+    <div class="post-image-container">
+        <img src="<%= post.photo %>" alt="<%= post.title %>">
+    </div>
+<% } %>
+	<div class="author-info">
+    <% if (blogOwner.photo) { %>
+        <img src="<%= blogOwner.photo %>" alt="<%= blogOwner.username %>">
+    <% } else { %>
+		<div class="profile-placeholder">👤</div>
+    <% } %>
+    <p>By <a href="/users/<%= blogOwner._id %>"><strong><%= blogOwner.username %></strong></a> on <%= post.createdAt.toLocaleDateString() %></p>
+</div>
     <p>Content:<%= post.content %></p>
     <% if(locals.user && blogOwner._id.equals(locals.user._id)) {%>
         <hr>
         <div class="button-group">
         <a href="/users/<%= blogOwner._id %>/posts/<%= post._id %>/edit">Edit Post</a>
-        <form action="/users/<%= blogOwner._id %>/posts/<%= post._id %>?_method=DELETE" method="POST" style="display:inline;">
+        <form action="/users/<%= blogOwner._id %>/posts/<%= post._id %>?_method=DELETE" method="POST">
             <button type="submit">Delete Post</button>
         </form>
         </div>
@@ -27,7 +39,7 @@
                 <li>
                     <%= comment.username %> <%= comment.text %>
                         <% if (locals.user && (blogOwner._id.equals(locals.user._id) || comment.username === locals.user.username)) { %>
-                            <form action="/users/<%= blogOwner._id %>/posts/<%= post._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST" style="display:inline;">
+                            <form action="/users/<%= blogOwner._id %>/posts/<%= post._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
                                 <button type="submit">Delete Comment</button>
                             </form>
                         <% } %>
